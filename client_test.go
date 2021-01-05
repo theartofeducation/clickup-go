@@ -13,14 +13,14 @@ import (
 	"github.com/pkg/errors"
 )
 
-const (
-	key    = "abc123"
-	secret = "def456"
-)
+var options = Options{
+	Key:                     "abc123",
+	TaskStatusUpdatedSecret: "def456",
+}
 
 func Test_Client(t *testing.T) {
 	t.Run("it creates a new ClickUp Client", func(t *testing.T) {
-		client := NewClient(key, secret)
+		client := NewClient(options)
 
 		if _, ok := client.(CUClient); !ok {
 			t.Errorf("client is not a CUClient")
@@ -30,11 +30,11 @@ func Test_Client(t *testing.T) {
 
 func Test_VerifySignature(t *testing.T) {
 	t.Run("it verifies a valid signature", func(t *testing.T) {
-		client := NewClient(key, secret)
+		client := NewClient(options)
 
 		body := []byte("ghi890")
 
-		hash := hmac.New(sha256.New, []byte(secret))
+		hash := hmac.New(sha256.New, []byte(options.TaskStatusUpdatedSecret))
 		hash.Write(body)
 		signature := hex.EncodeToString(hash.Sum(nil))
 
@@ -46,7 +46,7 @@ func Test_VerifySignature(t *testing.T) {
 	})
 
 	t.Run("it does not verify an invalid signature", func(t *testing.T) {
-		client := NewClient(key, secret)
+		client := NewClient(options)
 
 		body := []byte("ghi890")
 
@@ -64,7 +64,7 @@ func Test_VerifySignature(t *testing.T) {
 
 func Test_ParseWebhook(t *testing.T) {
 	t.Run("it parses and returns a webhook", func(t *testing.T) {
-		client := NewClient(key, secret)
+		client := NewClient(options)
 
 		body := ioutil.NopCloser(strings.NewReader(`{"webhook_id": "hgi789", "event": "taskStatusUpdated", "task_id": "test1"}`))
 
@@ -88,7 +88,7 @@ func Test_ParseWebhook(t *testing.T) {
 	})
 
 	t.Run("it returns an error if webhook cannot be parsed", func(t *testing.T) {
-		client := NewClient(key, secret)
+		client := NewClient(options)
 
 		body := ioutil.NopCloser(strings.NewReader(`{"webhook_id": "hgi789", "event": "taskStatusUpdated", "task_id": "test1"`))
 

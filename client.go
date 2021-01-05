@@ -21,6 +21,12 @@ type CUClient interface {
 
 const apiURL = "https://api.clickup.com/api/v2"
 
+// Options are the settings needed when creating a new Client.
+type Options struct {
+	Key                     string
+	TaskStatusUpdatedSecret string
+}
+
 // Client handles interaction with the ClickUp API.
 type Client struct {
 	key                     string
@@ -29,10 +35,10 @@ type Client struct {
 }
 
 // NewClient creates and returns a new ClickUp Client.
-func NewClient(key, taskStatusUpdatedSecret string) CUClient {
+func NewClient(options Options) CUClient {
 	client := Client{
-		key:                     key,
-		taskStatusUpdatedSecret: taskStatusUpdatedSecret,
+		key:                     options.Key,
+		taskStatusUpdatedSecret: options.TaskStatusUpdatedSecret,
 		url:                     apiURL,
 	}
 
