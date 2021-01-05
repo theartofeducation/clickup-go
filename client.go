@@ -23,15 +23,15 @@ const apiURL = "https://api.clickup.com/api/v2"
 
 // Client handles interaction with the ClickUp API.
 type Client struct {
-	Key                     string
-	TaskStatusUpdatedSecret string
+	key                     string
+	taskStatusUpdatedSecret string
 }
 
 // NewClient creates and returns a new ClickUp Client.
 func NewClient(key, taskStatusUpdatedSecret string) CUClient {
 	client := Client{
-		Key:                     key,
-		TaskStatusUpdatedSecret: taskStatusUpdatedSecret,
+		key:                     key,
+		taskStatusUpdatedSecret: taskStatusUpdatedSecret,
 	}
 
 	return client
@@ -39,7 +39,7 @@ func NewClient(key, taskStatusUpdatedSecret string) CUClient {
 
 // VerifySignature validates a Webhook's signature.
 func (c Client) VerifySignature(signature string, body []byte) error {
-	secret := []byte(c.TaskStatusUpdatedSecret)
+	secret := []byte(c.taskStatusUpdatedSecret)
 
 	hash := hmac.New(sha256.New, secret)
 	hash.Write(body)
@@ -72,7 +72,7 @@ func (c Client) GetTask(taskID string) (Task, error) {
 	url := apiURL + "/task/" + taskID
 
 	request, _ := http.NewRequest(http.MethodGet, url, nil)
-	request.Header.Add("Authorization", c.Key)
+	request.Header.Add("Authorization", c.key)
 	request.Header.Add("Content-Type", "application/json")
 
 	var task Task
