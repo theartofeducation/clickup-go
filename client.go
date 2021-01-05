@@ -25,6 +25,7 @@ const apiURL = "https://api.clickup.com/api/v2"
 type Client struct {
 	key                     string
 	taskStatusUpdatedSecret string
+	url                     string
 }
 
 // NewClient creates and returns a new ClickUp Client.
@@ -32,6 +33,7 @@ func NewClient(key, taskStatusUpdatedSecret string) CUClient {
 	client := Client{
 		key:                     key,
 		taskStatusUpdatedSecret: taskStatusUpdatedSecret,
+		url:                     apiURL,
 	}
 
 	return client
@@ -69,7 +71,7 @@ func (c Client) ParseWebhook(body io.ReadCloser) (Webhook, error) {
 func (c Client) GetTask(taskID string) (Task, error) {
 	httpClient := &http.Client{}
 
-	url := apiURL + "/task/" + taskID
+	url := c.url + "/task/" + taskID
 
 	request, _ := http.NewRequest(http.MethodGet, url, nil)
 	request.Header.Add("Authorization", c.key)
@@ -83,7 +85,7 @@ func (c Client) GetTask(taskID string) (Task, error) {
 	}
 
 	if response.StatusCode != http.StatusOK {
-		return task, errors.New(fmt.Sprint("ClickUp returned status", response.StatusCode))
+		return task, errors.New(fmt.Sprint("ClickUp returned status ", response.StatusCode))
 	}
 
 	if err := json.NewDecoder(response.Body).Decode(&task); err != nil {
