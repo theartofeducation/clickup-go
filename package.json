@@ -1,0 +1,25 @@
+{
+  "name": "clickup-go",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A client for using the ClickUp API.",
+  "repository": "git+https://github.com/theartofeducation/clickup-go.git",
+  "author": "Christopher Lamm <chris@theantichris.com> (https://github.com/theantichris)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/theartofeducation/clickup-go/issues"
+  },
+  "homepage": "https://github.com/theartofeducation/clickup-go#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/prompt": "^11.0.0",
+    "husky": "^4.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "main": "index.js"
+}

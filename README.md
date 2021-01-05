@@ -1,2 +1,3 @@
-# clickup-go
-A client for using the ClickUp API.
+# ClickUp Go
+
+A client for using the [ClickUp API](https://clickup.com/api).
