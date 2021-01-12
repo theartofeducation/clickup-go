@@ -15,6 +15,7 @@ type MockClient struct {
 	VerifySignatureError bool
 	ParseWebhookError    bool
 	GetTaskError         bool
+	UpdateTaskError      bool
 }
 
 // GetTask mock fetches and returns a Task from ClickUp.
@@ -39,6 +40,15 @@ func (c MockClient) ParseWebhook(body io.ReadCloser) (Webhook, error) {
 func (c MockClient) VerifySignature(signature string, body []byte) error {
 	if c.VerifySignatureError {
 		return ErrSignatureMismatch
+	}
+
+	return nil
+}
+
+// UpdateTask mocks makes changes to a Task on ClickUp.
+func (c MockClient) UpdateTask(taskID string, task UpdateTaskRequest) error {
+	if c.UpdateTaskError {
+		return ErrTest
 	}
 
 	return nil

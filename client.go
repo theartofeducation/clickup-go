@@ -15,6 +15,7 @@ type CUClient interface {
 	VerifySignature(signature string, body []byte) error
 	ParseWebhook(body io.ReadCloser) (Webhook, error)
 	GetTask(taskID string) (Task, error)
+	UpdateTask(taskID string, task UpdateTaskRequest) error
 }
 
 const apiURL = "https://api.clickup.com/api/v2"

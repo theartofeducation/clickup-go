@@ -19,6 +19,10 @@ The library will parse ClickUp Webhooks from an HTTP request.
 
 The library will fetch a Task by Task ID.
 
+### Update Task
+
+The library will update an existing Task.
+
 ### Mocking
 
 Full mocks for all features are included to make testing consuming modules easier.
