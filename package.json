@@ -1,6 +1,6 @@
 {
   "name": "clickup-go",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "private": true,
   "description": "A client for using the ClickUp API.",
   "repository": "git+https://github.com/theartofeducation/clickup-go.git",

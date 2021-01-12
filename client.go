@@ -5,9 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
-	"fmt"
 	"io"
-	"net/http"
 
 	"github.com/pkg/errors"
 )
@@ -71,32 +69,4 @@ func (c Client) ParseWebhook(body io.ReadCloser) (Webhook, error) {
 	}
 
 	return webhook, nil
-}
-
-// GetTask fetches and returns a Task from ClickUp.
-func (c Client) GetTask(taskID string) (Task, error) {
-	httpClient := &http.Client{}
-
-	url := c.url + "/task/" + taskID
-
-	request, _ := http.NewRequest(http.MethodGet, url, nil)
-	request.Header.Add("Authorization", c.key)
-	request.Header.Add("Content-Type", "application/json")
-
-	var task Task
-
-	response, err := httpClient.Do(request)
-	if err != nil {
-		return task, errors.Wrap(err, "Could not send request to the ClickUp API")
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return task, errors.New(fmt.Sprint("ClickUp returned status ", response.StatusCode))
-	}
-
-	if err := json.NewDecoder(response.Body).Decode(&task); err != nil {
-		return task, errors.Wrap(err, "Could not parse Task body")
-	}
-
-	return task, nil
 }
