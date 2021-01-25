@@ -5,6 +5,7 @@ type Status string
 
 // ClickUp Statuses
 const (
-	StatusReadyForDevelopment Status = "ready for development"
-	StatusAcceptance          Status = "acceptance"
+	StatusAcceptance             Status = "acceptance"
+	StatusInDevelopmentClubhouse Status = "in development (clubhouse)"
+	StatusReadyForDevelopment    Status = "ready for development"
 )
